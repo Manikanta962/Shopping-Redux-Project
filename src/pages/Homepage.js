@@ -12,6 +12,8 @@ function Homepage() {
 
   const { cartItems } = useSelector((state) => state.cartReducer);
 
+  const [loading, setLoading] = useState(false);
+
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
@@ -36,6 +38,8 @@ function Homepage() {
   // GET OR RETRIVE DATA STORED IN FIREBASE BY BELOW CODE
   async function getData() {
     try {
+      setLoading(true);
+
       const users = await getDocs(collection(fireDB, "products"));
       // IF U WANT TO STORE 4 DOCUMENTS IN AN ARRAY -- TAKE EMPTY ARRAY
       const productsArray = [];
@@ -48,11 +52,17 @@ function Homepage() {
           ...doc.data(),
         };
         productsArray.push(obj);
+
+        // TO HIDE LOADER KEEP --SETLOADING -- FALSE
+        setLoading(false);
       });
       setProducts(productsArray);
       console.log(productsArray);
     } catch (error) {
       console.log(error);
+
+      // TO HIDE LOADER KEEP --SETLOADING -- FALSE
+      setLoading(false);
     }
   }
   // function addProductsData() {
@@ -81,7 +91,7 @@ function Homepage() {
   };
 
   return (
-    <Layout>
+    <Layout loading={loading}>
       <div className="container mt-3">
         <div className="row">
           {products.map((product) => {

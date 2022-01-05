@@ -6,12 +6,16 @@ import fireDB from "../fireConfig";
 import { useParams } from "react-router-dom";
 function Productinfo() {
   const [product, setProduct] = useState();
+
+  const [loading, setLoading] = useState(false);
+
   const params = useParams();
   useEffect(() => {
     getData();
   }, []);
   async function getData() {
     try {
+      setLoading(true);
       const productTemp = await getDoc(
         doc(fireDB, "products", params.productid)
       );
@@ -29,13 +33,19 @@ function Productinfo() {
       // });
       console.log(productTemp.data());
       setProduct(productTemp.data());
+
+      // TO HIDE LOADER KEEP --SETLOADING -- FALSE
+      setLoading(false);
       // console.log(productsArray);
     } catch (error) {
       console.log(error);
+
+      // TO HIDE LOADER KEEP --SETLOADING -- FALSE
+      setLoading(false);
     }
   }
   return (
-    <Layout>
+    <Layout loading={loading}>
       <div className="container">
         <div className="row justify-content-center">
           <div className="col-md-8">
