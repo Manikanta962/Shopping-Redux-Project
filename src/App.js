@@ -5,13 +5,19 @@ import Registerpage from "./pages/Registerpage";
 import Productinfo from "./pages/Productinfo";
 import Cartpage from "./pages/Cartpage";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 import "./stylesheets/layout.css";
 import "../src/stylesheets/products.css";
+import "../src/stylesheets/authentication.css";
 
 import "./App.css";
 const App = () => {
   return (
     <div className="App">
+      <ToastContainer />
+
       <BrowserRouter>
         <Routes>
           <Route path="/" exact element={<Homepage />}></Route>
